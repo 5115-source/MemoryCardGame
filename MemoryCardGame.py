@@ -39,10 +39,18 @@ def main():
         deck.append([(i, False), (i, False)])
         
     random.shuffle(deck)
+    
+    #After Shuffling the deck create alinked list of the order of the cards for the current game
+    
+    #Should probably used a singularly linked list: (3, False) -> (2, False), (2, False), (3, False) -> null
+    #Using a singly linked list and starting at the first node each time we update the gameboard and print the game board
+    
+    
+    
 
     #Introduce the game
     
-    #Lay out the cards one by one form the stack
+    #Lay out the cards one by one form the linked list
     
     #ETC
 
