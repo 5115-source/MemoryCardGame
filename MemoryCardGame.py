@@ -35,7 +35,7 @@ class Node:
 
 def main():
     #Need to create a more instructive introduction
-    print("Welcome to the memory card game! Please input two (x,y) coordinates to flip cards.")
+    print("Welcome to the memory card game!")
     
     deck = deckBuilder()
     #print(deck)
@@ -51,47 +51,62 @@ def main():
     while deck:
         gameBoard(head, deck)
         
-    inputChecker()
+    inputChecker(deck)
     
 #Build a "shuffled" stack of cards that has 2 of each number in it (0-9 each number occurs twice)
 def deckBuilder():
     deck = []
-    #fill the deck with cards and a flipped state of false
+    
+    """#fill the deck with cards and a flipped state of false
     for i in range(10):
         #Using a stack to add a pair of each number to the deck
         deck.append((i, False))
         deck.append((i, False))
     random.shuffle(deck)
+    return(deck)"""
+    
+    # List of symbols that will be use for pairs of cards
+    symbols = ['!', '@', '#', '$', '%', '<', '&', '*', '>', '+']
+
+    #Using a stack to add a pair of each symbol to the deck
+    number = 20
+    for symbol in symbols:
+        #Need to adjust to get the numbers in order and have the symbols in random order
+        deck.append((symbol, number))
+        number -= 1
+        deck.append((symbol, number))
+        number -= 1
+    random.shuffle(deck)
+    #For troubleshooting
+    print(deck)
     return(deck)
 
 def gameBoard(head, deck):
     currentCard = Node(deck.pop())
     currentCard.next = head
     
-    """if currentCard.data[1] == True:
-        print(currentCard.data[0], end = " ")
-    """
-    
-    if currentCard.data[1] == False:
-        print("#", end = " ")
+    cardNumber = len(deck) + 1
+    if isinstance(currentCard.data[1], int):
+        if cardNumber > 9:
+            print(f"{cardNumber}", end = " ")
+        else:
+            print(f" {cardNumber}", end = " ")
     else: 
-        print(currentCard.data[0], end = " ")
+        print(f" {currentCard.data[0]}", end = " ")
         
     #If length of the stack is divisible by 5 start a new row
     if len(deck) % 5 == 0:
         print()
         
-def inputChecker():
-    x1 = input("What is the x coordinate of the first card you want to flip? ")
-    y1 = input("What is the y coordinate of the first card you want to flip? ")
-    x2 = input("What is the x coordinate of the second card you want to flip? ")
-    y2 = input("What is the y coordinate of the second card you want to flip? ")
+#Unfinished
+def inputChecker(deck):
+    card1 = input("What is the number of the first card you want to flip?")
+    #Update that card to have a flipped state of true
     
-    inputMatrix = [x1, y1, x2, y2]
-    
-    print(inputMatrix)
-    
-    return inputMatrix
+    card2 = input("What is the number of the second card you want to flip?")
+    #Update that card to have a flipped state of true
+
+    return deck
 
 
 #If there is a main method, run it
