@@ -20,6 +20,8 @@ Use another data type for storing the game board and the card states
 Use a stack of cards to check each "index" one by one and see if we need to update the given card to a true or false flip state
 
 """
+
+#If the chosen cards to flip are the same number then it may cuase issues, need to troubleshhot later
 import random
 
 #Linked list class
@@ -39,16 +41,16 @@ def main():
     print("Once you match all the cards and have none flipped upside down you win!\n")
     
     deck = deckBuilder()
-    head = None
+    gameBoard(deck)
     gameRunning = True
     
     #Assemble gameboard
-    while deck:
-        gameBoard(head, deck)
+    """while deck:
+        gameBoard(deck)"""
     
     while gameRunning == True:
         inputChecker(deck)
-        #gameBoard(head, deck)
+        gameBoard(deck)
         
     #if all cards are flipped stop the game and add a congratulations message
     
@@ -65,45 +67,71 @@ def deckBuilder():
     numbers = list(range(1, 21))
 
     for symbol in symbols:
-        deck.append((symbol, numbers.pop()))
-    
+        deck.append([symbol, numbers.pop()])
+
     return(deck)
 
-def gameBoard(head, deck):
-    currentCard = Node(deck.pop())
-    currentCard.next = head
+def gameBoard(deck):
+    nodeCounter = 0
     
-    cardNumber = currentCard.data[1]
-    if isinstance(cardNumber, int):
-        if cardNumber > 9:
-            print(f"{cardNumber}", end = "  ")
-        else:
-            print(f" {cardNumber}", end = "  ")
-    else: 
-        print(f" {currentCard.data[0]}", end = "  ")
+    currentCard = Node()
+    currentCardTemp = currentCard
+    
+    for card in deck:
+        nodeCounter += 1
         
-    #If length of the stack is divisible by 5 start a new row
-    if len(deck) % 5 == 0:
-        print("\n")
+        currentCardTemp.next = Node(card)
+        currentCardTemp = currentCardTemp.next
+        #print(str(currentCardTemp.data))
+        
+        #print(currentCardTemp.data[1])
+    
+        cardNumber = currentCardTemp.data[1]
+        #print(cardNumber)
+        if isinstance(cardNumber, int):
+            if cardNumber > 9:
+                print(f"{cardNumber}", end = "  ")
+            else:
+                print(f" {cardNumber}", end = "  ")
+        else: 
+            print(f" {currentCardTemp.data[0]}", end = "  ")
+
+        #If amount of nodes printed is divisible by 5 start a new row
+        if nodeCounter % 5 == 0:
+            print("\n")
         
 #Unfinished
 def inputChecker(deck):
-    cardFlip1 = input("What is the number of the first card you want to flip?")
+    cardFlip1 = input("What is the number of the first card you want to flip?\n")
     while not cardFlip1.isdigit() or not 1 <= int(cardFlip1) <= 20:
-        cardFlip1 = input("Sorry that wasn't an integer number between 1-20. What is the number (1-20) of the first card you want to flip?")
+        cardFlip1 = input("Sorry that wasn't an integer number between 1-20. What is the number (1-20) of the first card you want to flip?\n")
     
-    cardFlip2 = input("What is the number of the second card you want to flip?")
+    cardFlip2 = input("What is the number of the second card you want to flip?\n")
     while not cardFlip2.isdigit() or not 1 <= int(cardFlip2) <= 20:
-        cardFlip2 = input("Sorry that wasn't an integer number between 1-20. What is the number (1-20) of the second card you want to flip?")
+        cardFlip2 = input("Sorry that wasn't an integer number between 1-20. What is the number (1-20) of the second card you want to flip?\n")
 
     #Flip both cards
     
-    #Display the gameboard
+    currentCard = Node()
+    currentCardTemp = currentCard
+    
+    for card in deck:
+        currentCardTemp.next = Node(card)
+        currentCardTemp = currentCardTemp.next
+    
+        if int(cardFlip1) == currentCardTemp.data[1]:
+            currentCardTemp.data[1] = currentCardTemp.data[0] 
+            
+        if int(cardFlip2) == currentCardTemp.data[1]:
+            currentCardTemp.data[1] = currentCardTemp.data[0] 
+    
+    print("Guessed Pair:\n")
+    gameBoard(deck)
 
     if cardFlip1 != cardFlip2:
-        #Flip the cards back
-        #Display the gameboard
-        print()
+        print("The chosen cards were not a pair.\n")
+        #Flip the cards back      FINISH!!!
+        print("Current Gameboard:\n")
 
     return deck
 
