@@ -102,11 +102,11 @@ def gameBoard(deck):
         
 #Unfinished
 def inputChecker(deck):
-    cardFlip1 = input("What is the number of the first card you want to flip?\n")
+    cardFlip1 = input("What is the number of the first card you want to flip? ")
     while not cardFlip1.isdigit() or not 1 <= int(cardFlip1) <= 20:
         cardFlip1 = input("Sorry that wasn't an integer number between 1-20. What is the number (1-20) of the first card you want to flip?\n")
     
-    cardFlip2 = input("What is the number of the second card you want to flip?\n")
+    cardFlip2 = input("What is the number of the second card you want to flip? ")
     while not cardFlip2.isdigit() or not 1 <= int(cardFlip2) <= 20:
         cardFlip2 = input("Sorry that wasn't an integer number between 1-20. What is the number (1-20) of the second card you want to flip?\n")
 
@@ -120,18 +120,28 @@ def inputChecker(deck):
         currentCardTemp = currentCardTemp.next
     
         if int(cardFlip1) == currentCardTemp.data[1]:
-            currentCardTemp.data[1] = currentCardTemp.data[0] 
+            #currentCardTemp.data[1] = currentCardTemp.data[0]
+            print("Card ", cardFlip1, " is a ", currentCardTemp.data[0])
             
         if int(cardFlip2) == currentCardTemp.data[1]:
-            currentCardTemp.data[1] = currentCardTemp.data[0] 
-    
-    print("Guessed Pair:\n")
-    gameBoard(deck)
+            #currentCardTemp.data[1] = currentCardTemp.data[0]
+            print("Card ", cardFlip2, " is a ", currentCardTemp.data[0])
 
     if cardFlip1 != cardFlip2:
         print("The chosen cards were not a pair.\n")
-        #Flip the cards back      FINISH!!!
         print("Current Gameboard:\n")
+    else: 
+        for card in deck:
+            currentCardTemp.next = Node(card)
+            currentCardTemp = currentCardTemp.next
+        
+            if int(cardFlip1) == currentCardTemp.data[1]:
+                currentCardTemp.data[1] = currentCardTemp.data[0]
+                #print("Card ", cardFlip1, " is a ", currentCardTemp.data[0])
+                
+            if int(cardFlip2) == currentCardTemp.data[1]:
+                currentCardTemp.data[1] = currentCardTemp.data[0]
+                #print("Card ", cardFlip2, " is a ", currentCardTemp.data[0])
 
     return deck
 
